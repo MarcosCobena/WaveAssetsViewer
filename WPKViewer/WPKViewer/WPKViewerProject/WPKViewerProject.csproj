@@ -47,6 +47,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Game.cs" />
+    <Compile Include="LoaderScenes\BaseLoaderScene.cs" />
+    <Compile Include="LoaderScenes\Texture2DLoaderScene.cs" />
     <Compile Include="MyScene.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -29,24 +29,5 @@ namespace WPKViewerProject
             };
             this.EntityManager.Add(help);
         }
-
-        internal void LoadAsset(string fileName)
-        {
-            if (this.currentAsset != null)
-            {
-                this.EntityManager.Remove(this.currentAsset);
-            }
-
-            this.currentAsset = new Entity()
-                .AddComponent(new Sprite("Content/" + fileName))
-                .AddComponent(new SpriteRenderer(DefaultLayers.Alpha))
-                .AddComponent(new Transform2D()
-                {
-                    Origin = Vector2.One / 2,
-                    X = WaveServices.Platform.ScreenWidth / 2,
-                    Y = WaveServices.Platform.ScreenHeight / 2
-                });
-            this.EntityManager.Add(this.currentAsset);
-        }
     }
 }
