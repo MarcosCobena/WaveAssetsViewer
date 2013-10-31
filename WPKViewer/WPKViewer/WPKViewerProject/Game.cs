@@ -6,6 +6,7 @@ using WaveEngine.Common.Graphics;
 using WaveEngine.Framework;
 using WaveEngine.Framework.Graphics;
 using WaveEngine.Framework.Services;
+using WaveEngine.Framework.Sound;
 using WPKViewerProject.LoaderScenes;
 #endregion
 
@@ -18,47 +19,54 @@ namespace WPKViewerProject
             base.Initialize(application);
 
             ScreenLayers screenLayers = WaveServices.ScreenLayers;
-            screenLayers.AddScene<MyScene>();
+            screenLayers.AddScene<LandingScene>();
             screenLayers.Apply();
         }
 
         public void LoadAsset(string fileName)
         {
-            var assetType = this.ReadAssetType(fileName);
+            var assetInfo = this.ReadAssetInfo(fileName);
+            var assetType = assetInfo.Type;
             Type loaderScene = null;
 
             if (assetType == typeof(Texture2D))
             {
                 loaderScene = typeof(Texture2DLoaderScene);
             }
+            //else if (assetType == typeof(SoundEffect))
+            //{
+            //    loaderScene = typeof(SoundEffectLoaderScene);
+            //}
 
-            if (assetType != null)
+            if (loaderScene != null)
             {
                 var currentScene = (BaseLoaderScene)WaveServices.ScreenLayers.FindScene(loaderScene);
 
+                // It's needed to recycle the same scene type, screen layers doesn't allow
+                // a new one of the same type
                 if (currentScene == null)
                 {
-                    var scene = (BaseLoaderScene)Activator.CreateInstance(loaderScene, new object[] { fileName });
+                    var scene = (BaseLoaderScene)Activator.CreateInstance(loaderScene, new object[] { assetInfo });
                     WaveServices.ScreenLayers.AddScene(scene);
                     WaveServices.ScreenLayers.Apply();
                 }
                 else
                 {
-                    currentScene.LoadAsset(fileName);
+                    currentScene.LoadAsset(assetInfo);
                 }
             }
         }
 
         /// <summary>
-        /// Reads the type of the asset.
+        /// Reads the asset info.
         /// </summary>
         /// <param name="fileName">Name of the file.</param>
-        /// <returns>An ILoadable type, or null if the file isn't a valid WPK, or the header is unkown.</returns>
-        private Type ReadAssetType(string fileName)
+        /// <returns>An AssetInfo, or null if the file isn't a valid WPK, or the header is unkown.</returns>
+        private AssetInfo ReadAssetInfo(string fileName)
         {
             var contentRelativePath = "Content/" + fileName;
             var stream = new FileStream(contentRelativePath, FileMode.Open);
-            Type type = null;
+            AssetInfo assetInfo;
 
             using (var reader = new BinaryReader(stream))
             {
@@ -76,36 +84,19 @@ namespace WPKViewerProject
                 // This is a trick to ref. the assembly which defines every ILoadable,
                 // as I already know Entity is within the same one
                 var assembly = typeof(Entity).Assembly;
-                type = assembly.GetType(tokens[0]);
+                var type = assembly.GetType(tokens[0]);
 
-                //var isCompressed = reader.ReadBoolean();
+                var isCompressed = reader.ReadBoolean();
+
+                assetInfo = new AssetInfo
+                {
+                    FileName = fileName,
+                    Type = type,
+                    Compressed = isCompressed
+                };
             }
 
-            return type;
+            return assetInfo;
         }
-
-        ///// <summary>
-        ///// Gathers the type of the asset.
-        ///// </summary>
-        ///// <param name="fileName">Name of the file.</param>
-        ///// <returns>The type of the asset. null if the type isn't supported, or can't be detected.</returns>
-        //private Type GatherAssetType(string fileName)
-        //{
-        //    var contentRelativePath = "Content/" + fileName;
-        //    Type assetType = null; 
-
-        //    // Let's suppose first it's a texture 2d
-        //    try
-        //    {
-        //        var texture2D = WaveServices.Assets.Global.LoadAsset<Texture2D>(contentRelativePath);
-        //        assetType = typeof(Texture2D);
-        //    }
-        //    catch (Exception)
-        //    {
-        //        assetType = null;
-        //    }
-
-        //    return assetType;
-        //}
     }
 }

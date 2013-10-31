@@ -13,19 +13,22 @@ using WaveEngine.Framework.UI;
 
 namespace WPKViewerProject
 {
-    public class MyScene : Scene
+    /// <summary>
+    /// Defines the scene first viewed when the app is executed. It
+    /// shows basic help.
+    /// </summary>
+    public class LandingScene : Scene
     {
-        private Entity currentAsset;
-
         protected override void CreateScene()
         {
             RenderManager.BackgroundColor = Color.White;
 
             var help = new TextBlock() 
             { 
-                Text = "Help: Drop a WPK file into this window",
+                Text = "Drop a WPK here",
                 Foreground = Color.Black,
-                Margin = new Thickness(5)
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
             };
             this.EntityManager.Add(help);
         }

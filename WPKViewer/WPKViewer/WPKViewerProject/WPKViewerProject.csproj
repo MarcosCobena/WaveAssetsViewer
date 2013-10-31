@@ -46,10 +46,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssetInfo.cs" />
+    <Compile Include="Components\BorderDrawable2D.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="LoaderScenes\BaseLoaderScene.cs" />
+    <Compile Include="LoaderScenes\BaseLoaderScene.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LoaderScenes\SoundEffectLoaderScene.cs" />
     <Compile Include="LoaderScenes\Texture2DLoaderScene.cs" />
-    <Compile Include="MyScene.cs" />
+    <Compile Include="LandingScene.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

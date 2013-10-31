@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using WaveEngine.Common.Graphics;
@@ -21,10 +22,15 @@ namespace WPKViewer
 
         public App()
         {
-            this.Width = 800;
-            this.Height = 600;
+            this.Width = 1024;
+            this.Height = 768;
             this.FullScreen = false;
-            this.WindowTitle = "Wave Assets Viewer";
+
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+            string version = fvi.FileVersion;
+
+            this.WindowTitle = string.Format("Wave Assets Viewer v{0}", version);
         }
 
         public override void Initialize()
