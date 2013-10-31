@@ -26,6 +26,12 @@ namespace WPKViewerProject
         public void LoadAsset(string fileName)
         {
             var assetInfo = this.ReadAssetInfo(fileName);
+
+            if (assetInfo == null)
+            {
+                return;
+            }
+
             var assetType = assetInfo.Type;
             Type loaderScene = null;
 
