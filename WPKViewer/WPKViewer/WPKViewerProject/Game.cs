@@ -35,14 +35,24 @@ namespace WPKViewerProject
             var assetType = assetInfo.Type;
             Type loaderScene = null;
 
+            // Every ILoadable supported by Wave:
+            // InternalSkinnedModel
+            // InternalStaticModel
+            // InternalAnimation
+            // SpriteFont
+            // Texture2D
+            // TextureAtlas
+            // TextureCube
+            // SoundEffect
+
             if (assetType == typeof(Texture2D))
             {
                 loaderScene = typeof(Texture2DLoaderScene);
             }
-            //else if (assetType == typeof(SoundEffect))
-            //{
-            //    loaderScene = typeof(SoundEffectLoaderScene);
-            //}
+            else if (assetType == typeof(SoundEffect))
+            {
+                loaderScene = typeof(SoundEffectLoaderScene);
+            }
 
             if (loaderScene != null)
             {
