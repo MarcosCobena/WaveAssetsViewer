@@ -37,6 +37,21 @@ namespace WPKViewerProject.LoaderScenes
         private TextBlock tbFileInfo;
 
         /// <summary>
+        /// The UI color
+        /// </summary>
+        protected Color uiColor = Color.Black;
+
+        /// <summary>
+        /// The font path
+        /// </summary>
+        protected string fontPath = null; // "Content/Consolas.wpk";
+
+        /// <summary>
+        /// The custom UI panel
+        /// </summary>
+        protected StackPanel customUIPanel;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="BaseLoaderScene" /> class.
         /// </summary>
         /// <param name="assetInfo">The asset info.</param>
@@ -58,7 +73,10 @@ namespace WPKViewerProject.LoaderScenes
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Top,
                 Margin = new Thickness(5),
-                Foreground = Color.Black
+                Foreground = this.uiColor,
+                //FontPath = this.fontPath,
+                // BUG: Modifying this doesn't affect
+                //LineSpacing = 50
             };
             this.EntityManager.Add(tbFileInfo);
             this.UpdateAssetInfoText();
@@ -66,16 +84,19 @@ namespace WPKViewerProject.LoaderScenes
             var btnFileBug = new Button()
             {
                 Text = "File a bug",
-                Foreground = Color.Black,
-                BorderColor = Color.Black,
+                Foreground = this.uiColor,
+                BorderColor = this.uiColor,
                 HorizontalAlignment = HorizontalAlignment.Right,
                 VerticalAlignment = VerticalAlignment.Bottom,
-                Margin = new Thickness(5)
+                Margin = new Thickness(5),
+                //FontPath = this.fontPath
             };
             this.EntityManager.Add(btnFileBug);
 
             btnFileBug.Click += (o, e) =>
                 WaveServices.Platform.ShowWebBrowser(new Uri(BugListUrl));
+
+            this.CreateUI();
         }
 
         /// <summary>
@@ -101,6 +122,21 @@ namespace WPKViewerProject.LoaderScenes
                 "Type: {1}\n" +
                 "Compressed?: {2}",
                 assetInfo.FileName, assetInfo.Type, assetInfo.Compressed ? "Yes" : "No");
+        }
+
+        /// <summary>
+        /// Creates the UI. It allows to add custom UI per asset type.
+        /// </summary>
+        protected virtual void CreateUI()
+        {
+            // Panel
+            this.customUIPanel = new StackPanel()
+            {
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Bottom,
+                Margin = new Thickness(5)
+            };
+            this.EntityManager.Add(customUIPanel);
         }
     }
 }

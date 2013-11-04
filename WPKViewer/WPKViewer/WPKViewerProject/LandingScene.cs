@@ -28,7 +28,8 @@ namespace WPKViewerProject
                 Text = "Drop a WPK here",
                 Foreground = Color.Black,
                 HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center
+                VerticalAlignment = VerticalAlignment.Center,
+                FontPath = "Content/Fonts/Script MT.wpk"
             };
             this.EntityManager.Add(help);
         }

@@ -73,8 +73,6 @@ namespace WPKViewerProject.LoaderScenes
             this.RenderManager.BackgroundColor = new Color(1, 0, 1);
 
             this.EntityManager.Add(this.entity);
-
-            this.CreateUI();
         }
 
         protected override void Start()
@@ -98,31 +96,26 @@ namespace WPKViewerProject.LoaderScenes
         /// <summary>
         /// Creates the UI.
         /// </summary>
-        private void CreateUI()
+        protected override void CreateUI()
         {
-            // Panel
-            var panel = new StackPanel()
-            {
-                HorizontalAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Bottom,
-                Margin = new Thickness(5)
-            };
-            this.EntityManager.Add(panel);
+            base.CreateUI();
 
             // Size text
             this.tbSize = new TextBlock()
             {
-                Foreground = Color.Black
+                Foreground = this.uiColor,
+                //FontPath = this.fontPath
             };
-            panel.Add(tbSize);
+            customUIPanel.Add(tbSize);
 
             // Scale text
             var tbScale = new TextBlock()
             {
-                Foreground = Color.Black,
-                Text = "Scale (1):"
+                Foreground = this.uiColor,
+                Text = "Scale (1):",
+                //FontPath = this.fontPath
             };
-            panel.Add(tbScale);
+            customUIPanel.Add(tbScale);
 
             // Scale slider
             this.sldScale = new Slider()
@@ -130,9 +123,10 @@ namespace WPKViewerProject.LoaderScenes
                 Minimum = MinimumSliderScaleValue,
                 Maximum = MaximumSliderScaleValue,
                 Value = DefaultSliderScaleValue,
-                TextColor = Color.Transparent
+                TextColor = Color.Transparent,
+                //FontPath = this.fontPath
             };
-            panel.Add(sldScale);
+            customUIPanel.Add(sldScale);
 
             sldScale.RealTimeValueChanged += (o, e) =>
                 {
@@ -149,9 +143,10 @@ namespace WPKViewerProject.LoaderScenes
                 OffText = "Show border?",
                 IsOn = true,
                 Width = 300,
-                TextColor = Color.Black
+                TextColor = this.uiColor,
+                //FontPath = this.fontPath
             };
-            panel.Add(tsShowBorder);
+            customUIPanel.Add(tsShowBorder);
 
             tsShowBorder.Toggled += (o, e) =>
                 {
