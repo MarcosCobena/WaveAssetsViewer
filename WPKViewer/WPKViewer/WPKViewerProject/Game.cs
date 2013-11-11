@@ -1,6 +1,7 @@
 #region Using Statements
 using System;
 using System.IO;
+using WaveAssetsViewerProject.LoaderScenes;
 using WaveEngine.Common;
 using WaveEngine.Common.Graphics;
 using WaveEngine.Framework;
@@ -40,10 +41,10 @@ namespace WPKViewerProject
             // InternalStaticModel
             // InternalAnimation
             // SpriteFont
-            // Texture2D
+            // OK Texture2D
             // TextureAtlas
             // TextureCube
-            // SoundEffect
+            // OK SoundEffect
 
             if (assetType == typeof(Texture2D))
             {
@@ -52,6 +53,10 @@ namespace WPKViewerProject
             else if (assetType == typeof(SoundEffect))
             {
                 loaderScene = typeof(SoundEffectLoaderScene);
+            }
+            else if (assetType == typeof(TextureAtlas))
+            {
+                loaderScene = typeof(TextureAtlasLoaderScene);
             }
 
             if (loaderScene != null)

@@ -55,6 +55,7 @@
     <Compile Include="LoaderScenes\SoundEffectLoaderScene.cs" />
     <Compile Include="LoaderScenes\Texture2DLoaderScene.cs" />
     <Compile Include="LandingScene.cs" />
+    <Compile Include="LoaderScenes\TextureAtlasLoaderScene.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
