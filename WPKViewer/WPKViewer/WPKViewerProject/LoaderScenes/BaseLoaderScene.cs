@@ -29,7 +29,7 @@ namespace WPKViewerProject.LoaderScenes
         /// <summary>
         /// The asset info
         /// </summary>
-        private AssetInfo assetInfo;
+        protected AssetInfo assetInfo;
 
         /// <summary>
         /// The TextBlock file info
