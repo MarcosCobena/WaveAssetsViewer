@@ -68,6 +68,9 @@ namespace WPKViewerProject.LoaderScenes
         /// </remarks>
         protected override void CreateScene()
         {
+            // This doesn't work fine in this case
+            this.RenderManager.Culling2DEnabled = false;
+
             tbFileInfo = new TextBlock()
             {
                 HorizontalAlignment = HorizontalAlignment.Left,
