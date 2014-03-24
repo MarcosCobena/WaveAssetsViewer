@@ -18,9 +18,7 @@ namespace WPKViewerProject
         {
             base.Initialize(application);
 
-            ScreenLayers screenLayers = WaveServices.ScreenLayers;
-            screenLayers.AddScene<LandingScene>();
-            screenLayers.Apply();
+            WaveServices.ScreenContextManager.To(new ScreenContext(new LandingScene()));
         }
 
         public void LoadAsset(string fileName)
@@ -53,18 +51,25 @@ namespace WPKViewerProject
             {
                 loaderScene = typeof(SoundEffectLoaderScene);
             }
+            else if (assetType == typeof(TextureAtlas))
+            {
+                loaderScene = typeof(TextureAtlasLoaderScene);
+            }
+            else if (assetType == typeof(SpriteFont))
+            {
+                loaderScene = typeof(SpriteFontLoaderScene);
+            }
 
             if (loaderScene != null)
             {
-                var currentScene = (BaseLoaderScene)WaveServices.ScreenLayers.FindScene(loaderScene);
+                var currentScene = WaveServices.ScreenContextManager.CurrentContext.FindScene<BaseLoaderScene>();
 
                 // It's needed to recycle the same scene type, screen layers doesn't allow
                 // a new one of the same type
-                if (currentScene == null)
+                if (currentScene == null || currentScene.GetType() != loaderScene)
                 {
                     var scene = (BaseLoaderScene)Activator.CreateInstance(loaderScene, new object[] { assetInfo });
-                    WaveServices.ScreenLayers.AddScene(scene);
-                    WaveServices.ScreenLayers.Apply();
+                    WaveServices.ScreenContextManager.To(new ScreenContext(scene));
                 }
                 else
                 {
